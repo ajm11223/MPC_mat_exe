@@ -32,6 +32,11 @@ K_mpc = K_gain(1, :);
 Kx = K_gain(1, 1);
 Ky = Ky_gain(1, :);
 
+% closed-loop eigenvalue 찾기
+clo_loop = A_e-B_e*K_mpc;
+e = eig(clo_loop);
+e_data = [real(e)'; imag(e)'];
+
 %% 3. Receding Horizon 제어 루프
 for k = 1:N_sim
     % (1) 최적 제어 증분 계산 (첫 번째 요소만 사용) [cite: 891, 1515]
@@ -78,3 +83,5 @@ disp(Kx);
 fprintf('\n K_y is');
 disp(Ky);
 
+fprintf('\n closed-loop eigenvalue is %f + (%f)i ', e_data);
+fprintf('\n');
