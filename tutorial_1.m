@@ -7,7 +7,11 @@ Dc=zeros(1,1); % 입력이 출력에 동시에 영향을 끼치지 않으므로 
 
 Delta_t=1; % 샘플링 간격 1초
 
-[Ad,Bd,Cd,Dd]=c2d(Ac,Bc,Cc,Dc,Delta_t); % continuous model to discrete model
+sysc = ss(Ac, Bc, Cc, Dc); % 1. 연속시간 상태공간 모델 생성 [cite: 557]
+sysd = c2d(sysc, Delta_t);  % 2. c2d 함수를 사용하여 이산화 수행 
+[Ad, Bd, Cd, Dd] = ssdata(sysd); % 3. 이산화된 행렬 추출
+
+
 % 교재의 Am,Bm 등이 현재 코드의 Ac, Cc 등이다..
 
 [m1,n1]=size(Cd); % Cd는 현재 1x3 mat 즉, 출력 y의 개수는 1, 상태변수 Xm의 개수는 3
